@@ -25,9 +25,9 @@
 				</div>
 				<div class="instructionColumn">
 					<p>Selecciona la imagen que deseas evaluar</p>
-					<button class="submitButton" type="submit">Selecciona un archivo</button>
-					<label>No se ha cargado ningún archivo</label>
-					<input id="submitImageInput" type="file">
+					<button ng-click="submitImage()" class="submitButton" type="submit">Selecciona un archivo</button>
+					<label>{{fakepath}}</label>
+					<input ng-model="image" onchange="angular.element(this).scope().uploadImage()" id="submitImageInput" type="file">
 				</div>
 				<hr>
 				<div class="iconColumn">
@@ -43,9 +43,7 @@
 				</div>
 				<div class="instructionColumn">
 					<p>Selecciona el tipo de contenido</p>
-
-
-					<select ng-model="selectedFilter">
+					<select ng-model="selectedFilter" ng-change="newDiv()">
 						<option value="" selected disabled>Seleccionar</option>
 						<option>OS y controles del navegador (Aqua)</option>
 						<option>Bienvenida e identidad del sitio (Amarillo)</option>
@@ -57,12 +55,11 @@
 						<option>Sin uso (Crema)</option>
 					</select>
 					<button id="evaluateButton" type="submit">Evaluar</button>
-					<a class="eraseFilters" href="#">Borrar todos los filtros</a>
+					<a class="eraseFilters" ng-click="deleteFilters()">Borrar todos los filtros</a>
 				</div>
 			</div>
       <div class="twelve columns">
-        <div id="imgContainer" class="imageHolder">
-        </div>
+        <div id="imgContainer" class="divCanvas"></div>
       </div>
 
     </div>
@@ -75,19 +72,36 @@
         <h2>Áreas seleccionadas</h2>
       </div>
       <div class="six columns">
-        <ul>
-          <li><p>OS y Controles del navegador (Aqua): 0.00%</p></li>
-          <li><p>Bienvenida e identidad del sitio (Amarillo): 0.00%</p></li>
-          <li><p>Navegación (Naranja): 0.00%</p></li>
-          <li><p>Contenido de interés (Verde): 0.00%</p></li>
-          <li><p>Publicidad y patrocinio (Rojo): 0.00%</p></li>
-          <li><p>Autopromoción (Morado): 0.00%</p></li>
-          <li><p>Relleno (Gris): 0.00%</p></li>
-          <li><p>Sin uso (Crema): 0.00%</p></li>
-        </ul>
-      </div>
-
-      <div class="ten columns">
+        <table>
+          <tr>
+            <td><p>OS y Controles del navegador (Aqua):</p></td>
+            <td><p>{{osValue | number: 2}} %</p></td>
+          </tr>
+          <tr>
+            <td><p>Bienvenida e identidad del sitio (Amarillo):</p></td>
+            <td>{{bienvenidaValue | number: 2}} %</td>
+          </tr>
+          <tr>
+            <td><p>Navegación (Naranja):</p></td>
+            <td>{{navegacionValue | number: 2}} %</td>
+          </tr>
+          <tr>
+            <td><p>Contenido de interés (Verde):</p></td>
+            <td>{{interesValue | number: 2}} %</td>
+          </tr>
+          <tr>
+            <td><p>Publicidad y patrocinio (Rojo):</p></td>
+            <td>{{publicidadValue | number: 2}} %</td>
+          </tr>
+          <tr>
+            <td><p>Autopromoción (Morado):</p></td>
+            <td>{{autopromocionValue | number: 2}} %</td>
+          </tr>
+          <tr>
+            <td><p>Relleno (Gris):</p></td>
+            <td>{{rellenoValue | number: 2}} %</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -97,8 +111,7 @@
       <div class="sixteen columns">
 				<h2>Acerca de</h2>
 				<hr>
-        <p>Herramienta desarrollada por CortesSalamanca con uso de servidor por cortesía de Usaria, consultoría en usabilidad y
-experiencia de usuario en México y Colombia.</p>
+        <p>Herramienta desarrollada por CortesSalamanca con uso de servidor por cortesía de Usaria, consultoría en usabilidad y experiencia de usuario en México y Colombia.</p>
       </div>
     </div>
   </div>
@@ -146,12 +159,4 @@ experiencia de usuario en México y Colombia.</p>
 				</div>
 			</div>
 		</footer>
-
-
-
-
-
-
-
-
 </div>

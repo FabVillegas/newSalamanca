@@ -1,12 +1,11 @@
 angular.module('Salamanca').directive("imageHolder", function(){
-
   return {
     restrict: 'C', // detects a class name
-    scope: true, // child and parent $scope
-    link: function($scope, element){
+    scope: true, // child and parent scope
+    link: function(scope, element, attrs){
 
-      $scope.divArray = [];
-      $scope.currentDrawing = 0;
+      scope.divArray = [];
+      scope.currentDrawing = 0;
 
       var $container = $('#imgContainer');
       var $selection = $('<div>').addClass('selection-box');
@@ -14,174 +13,191 @@ angular.module('Salamanca').directive("imageHolder", function(){
 
       drawing = false;
 
-      $scope.top = 0;
-      $scope.left = 0;
-      $scope.width = 0;
-      $scope.height = 0;
+      scope.top = 0;
+      scope.left = 0;
+      scope.width = 0;
+      scope.height = 0;
+      var _top, _left, _width, _height;
+
 
       element.bind('mousedown', function(event){
-
-        $scope.initialY = event.offsetY;
-        $scope.initialX = event.offsetX;
-        $selection.css({
-            'top': $scope.initialY,
-            'left': $scope.initialX,
-            'width': 0,
-            'height': 0
-        });
+        resetSelection();
+        scope.initialX = event.offsetX;
+        scope.initialY = event.offsetY;
         $selection.appendTo($container);
+        $selection.css({
+          'top': scope.initialY,
+          'left': scope.initialX,
+        });
         drawing = true;
       });
 
-
       element.bind('mousemove', function(event){
         if(drawing){
-          reset();
-          $scope._width = Math.abs(event.offsetX - $scope.initialX);
-          $scope._height = Math.abs(event.offsetY - $scope.initialY);
+          scope.currentX = event.offsetX;
+          scope.currentY = event.offsetY;
+          _width = Math.abs(scope.currentX - scope.initialX);
+          _height = Math.abs(scope.currentY - scope.initialY);
           $selection.css({
-            'width': $scope._width,
-            'height': $scope._height,
+            'width': _width,
+            'height': _height,
           });
-          /*
-          if(event.offsetX < $scope.initialX){
+          resize();
+          if(scope.currentX < scope.initialX){
             $selection.css({
-                'left': $scope.initialX - $scope._width
+              'left': scope.initialX - _width,
             });
           }
-          if(event.offsetY < $scope.initialY){
+          else{
             $selection.css({
-                'top': $scope.initialY - $scope._height
+              'left': scope.initialX,
             });
           }
-          */
-
-        }
-        else{
-          //nothing
+          resize();
+          if(scope.currentY < scope.initialY){
+            $selection.css({
+              'top': scope.initialY - _height,
+            });
+          }
+          else{
+            $selection.css({
+              'top': scope.initialY,
+            });
+          }
+          resize();
         }
       });
 
-      element.bind('mouseup', function(){
+      element.bind('mouseup', function(event){
         drawing = false;
+        drawDiv();
       });
 
-      function reset(){
+      function resize(){ /* Evita bug */
         $selection.css({
-          'width': $scope._width
+          'width': _width - 1,
+          'height': _height - 1,
         });
       };
 
-      function drawSelectionBox (){
-
+      function resetSelection(){
+        $selection.css({
+          'top': 0,
+          'left': 0,
+          'width': 0,
+          'height': 0,
+        });
       };
 
-
-      function createDiv(){
-        $('.area').remove();
-
-        element.append('<div class="' + $scope.currentDrawing + '"></div>');
-
-        switch($scope.currentDrawing){
-          case 0:
-            $('div').children('.0').css({
+      function drawDiv(){
+        scope.divArray[scope.currentDrawing] = {};
+        scope.divArray[scope.currentDrawing].top = $selection.css('top');
+        scope.divArray[scope.currentDrawing].left = $selection.css('left');
+        scope.divArray[scope.currentDrawing].width = $selection.css('width');
+        scope.divArray[scope.currentDrawing].height = $selection.css('height');
+        switch(scope.selectedFilter){
+          case 'OS y controles del navegador (Aqua)':
+            $container.append('<div class="' + scope.currentDrawing + '"></div>');
+            $('.' + scope.currentDrawing.toString()).css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
-              'color': 'black',
-              'background-color': 'aqua',
-              'z-index': $scope.currentDrawing
+              'opacity': 0.4,
+              'top': scope.divArray[scope.currentDrawing].top,
+              'left': scope.divArray[scope.currentDrawing].left,
+              'width': scope.divArray[scope.currentDrawing].width,
+              'height': scope.divArray[scope.currentDrawing].height,
             });
+            $('.' + scope.currentDrawing.toString()).addClass('OS');
             break;
           case 1:
             $('div').children('.1').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'yellow',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
           case 2:
             $('div').children('.2').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'orange',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
           case 3:
             $('div').children('.3').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'green',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
           case 4:
             $('div').children('.4').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'red',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
           case 5:
             $('div').children('.5').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'purple',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
           case 6:
             $('div').children('.6').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'gray',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
           case 7:
             $('div').children('.7').css({
               'position': 'absolute',
-              'top': $scope.divArray[$scope.currentDrawing].top + 'px',
-              'left': $scope.divArray[$scope.currentDrawing].left + 'px',
-              'width': $scope.divArray[$scope.currentDrawing].width + 'px',
-              'height': $scope.divArray[$scope.currentDrawing].height + 'px',
+              'top': scope.divArray[scope.currentDrawing].top + 'px',
+              'left': scope.divArray[scope.currentDrawing].left + 'px',
+              'width': scope.divArray[scope.currentDrawing].width + 'px',
+              'height': scope.divArray[scope.currentDrawing].height + 'px',
               'color': 'black',
               'background-color': 'wheat',
-              'z-index': $scope.currentDrawing
+              'z-index': scope.currentDrawing
             });
             break;
+            default:
+              alert('Seleccionar un tipo de filtro');
+              break;
         }
-        //$scope.currentDrawing += 1;
-      }
+        scope.currentDrawing += 1;
+      };
     }
   };
 });
