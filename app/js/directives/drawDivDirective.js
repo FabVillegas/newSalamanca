@@ -6,7 +6,6 @@ angular.module('Salamanca').directive("divCanvas", function(){
 
       // variables
       scope.divArray = [];
-      scope.sumAreas = [];
       scope.currentDrawing = 0;
 
       scope.osValue = 0;
@@ -16,6 +15,7 @@ angular.module('Salamanca').directive("divCanvas", function(){
       scope.publicidadValue = 0;
       scope.autopromocionValue = 0;
       scope.rellenoValue = 0;
+      scope.sinUsoValue = 100;
 
       // jquery object
       var $container = $('#imgContainer');
@@ -101,6 +101,21 @@ angular.module('Salamanca').directive("divCanvas", function(){
         scope.height = 0;
         $container.children().remove();
         scope.osValue = 0;
+        scope.bienvenidaValue = 0;
+        scope.navegacionValue = 0;
+        scope.interesValue = 0;
+        scope.publicidadValue = 0;
+        scope.autopromocionValue = 0;
+        scope.rellenoValue = 0;
+        scope.sinUsoValue = 100;
+        scope.sumAreas[0] = { x: "OS", y: [0], };
+        scope.sumAreas[1] = { x: "Bienvenida", y: [0], };
+        scope.sumAreas[2] = { x: "Navegacion", y: [0], };
+        scope.sumAreas[3] = { x: "Contenido", y: [0], };
+        scope.sumAreas[4] = { x: "Publicidad", y: [0], };
+        scope.sumAreas[5] = { x: "Autopromocion", y: [0], };
+        scope.sumAreas[6] = { x: "Relleno", y: [0], };
+        scope.sumAreas[7] = { x: "SinUso", y: [100], };
       };
 
 
@@ -149,6 +164,7 @@ angular.module('Salamanca').directive("divCanvas", function(){
           break;
         };
         scope.currentDrawing += 1;
+        console.log(scope.sumAreas);
       };
 
       // directive functions
@@ -181,6 +197,14 @@ angular.module('Salamanca').directive("divCanvas", function(){
         });
       };
 
+      function updateSinUso(value){
+        scope.sinUsoValue -= value;
+        scope.sumAreas[7] ={
+          x: "SinUso",
+          y: [scope.sinUsoValue],
+        };
+      };
+
       function calculatePercentages(value, classname){
         var auxWidth = $container.children('.' + value).width();
         var auxLength = $container.children('.' + value).height();
@@ -189,24 +213,66 @@ angular.module('Salamanca').directive("divCanvas", function(){
         switch(classname){
           case 'OS':
             scope.osValue += p;
+            scope.sumAreas[0] ={
+              x: classname,
+              y: [scope.osValue],
+            };
+            updateSinUso(scope.osValue);
             break;
           case 'Bienvenida':
             scope.bienvenidaValue += p;
+            scope.sumAreas[1] ={
+              x: classname,
+              y: [scope.bienvenidaValue],
+            };
+            updateSinUso(scope.bienvenidaValue);
             break;
           case 'Navegacion':
             scope.navegacionValue += p;
+            scope.sumAreas[2] ={
+              x: classname,
+              y: [scope.navegacionValue],
+            };
+            updateSinUso(scope.navegacionValue);
             break;
           case 'Interes':
             scope.interesValue += p;
+            scope.sumAreas[3] ={
+              x: classname,
+              y: [scope.interesValue],
+            };
+            updateSinUso(scope.interesValue);
             break;
           case 'Publicidad':
             scope.publicidadValue += p;
+            scope.sumAreas[4] ={
+              x: classname,
+              y: [scope.publicidadValue],
+            };
+            updateSinUso(scope.publicidadValue);
             break;
           case 'Autopromocion':
             scope.autopromocionValue += p;
+            scope.sumAreas[5] ={
+              x: classname,
+              y: [scope.autopromocionValue],
+            };
+            updateSinUso(scope.autopromocionValue);
             break;
           case 'Relleno':
             scope.rellenoValue += p;
+            scope.sumAreas[6] ={
+              x: classname,
+              y: [scope.rellenoValue],
+            };
+            updateSinUso(scope.rellenoValue);
+            break;
+          case 'SinUso':
+            scope.sinUsoValue += p;
+            scope.sumAreas[7] ={
+              x: classname,
+              y: [scope.sinUsoValue],
+            };
             break;
           default:
             // do nothing

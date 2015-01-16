@@ -1,5 +1,6 @@
 angular.module('Salamanca', [
-  'ui.router'
+  'ui.router',
+  'angularCharts',
 ]).
 config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('first');

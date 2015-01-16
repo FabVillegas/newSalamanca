@@ -43,7 +43,7 @@
 				</div>
 				<div class="instructionColumn">
 					<p>Selecciona el tipo de contenido</p>
-					<select ng-model="selectedFilter" ng-change="newDiv()">
+					<select ng-model="selectedFilter">
 						<option value="" selected disabled>Seleccionar</option>
 						<option>OS y controles del navegador (Aqua)</option>
 						<option>Bienvenida e identidad del sitio (Amarillo)</option>
@@ -54,7 +54,7 @@
 						<option>Relleno (Gris)</option>
 						<option>Sin uso (Crema)</option>
 					</select>
-					<button id="evaluateButton" type="submit">Evaluar</button>
+					<button ng-click="newDiv()" id="evaluateButton" type="submit">Evaluar</button>
 					<a class="eraseFilters" ng-click="deleteFilters()">Borrar todos los filtros</a>
 				</div>
 			</div>
@@ -101,7 +101,14 @@
             <td><p>Relleno (Gris):</p></td>
             <td>{{rellenoValue | number: 2}} %</td>
           </tr>
+          <tr>
+            <td><p>Sin uso (Crema):</p></td>
+            <td>{{sinUsoValue | number: 2}} %</td>
+          </tr>
         </table>
+      </div>
+      <div class="ten columns">
+        <div data-ac-chart="chartType" data-ac-data="data" data-ac-config="config" class="chart"></div>
       </div>
     </div>
   </div>
