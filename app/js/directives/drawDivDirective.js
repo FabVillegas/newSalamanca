@@ -1,8 +1,12 @@
-angular.module('Salamanca').directive("divCanvas", function(){
+angular.module('Salamanca').directive('divCanvas', function(){
   return {
     restrict: 'C', // detects a class name
     scope: false, // parent scope
     link: function(scope, element, attrs){
+      /*
+        markup required for directive to function, set width and height
+        <div id="imgContainer" class="divCanvas"></div>
+      */
 
       // variables
       scope.divArray = [];
@@ -157,14 +161,13 @@ angular.module('Salamanca').directive("divCanvas", function(){
           break;
         case 'Sin uso (Crema)':
           createDiv('SinUso');
-          calculatePercentages(scope.currentDrawing, 'Relleno');
+          calculatePercentages(scope.currentDrawing, 'SinUso');
           break;
         default:
           // do nothing
           break;
         };
         scope.currentDrawing += 1;
-        console.log(scope.sumAreas);
       };
 
       // directive functions
@@ -199,6 +202,9 @@ angular.module('Salamanca').directive("divCanvas", function(){
 
       function updateSinUso(value){
         scope.sinUsoValue -= value;
+        if(scope.sinUsoValue < 0){
+          scope.sinUsoValue = 0;
+        }
         scope.sumAreas[7] ={
           x: "SinUso",
           y: [scope.sinUsoValue],
@@ -268,11 +274,14 @@ angular.module('Salamanca').directive("divCanvas", function(){
             updateSinUso(scope.rellenoValue);
             break;
           case 'SinUso':
-            scope.sinUsoValue += p;
-            scope.sumAreas[7] ={
-              x: classname,
-              y: [scope.sinUsoValue],
-            };
+            var aux = scope.sinUsoValue + p;
+            if(aux <= 100){
+              scope.sinUsoValue += p;
+              scope.sumAreas[7] ={
+                x: classname,
+                y: [scope.sinUsoValue],
+              };
+            }
             break;
           default:
             // do nothing

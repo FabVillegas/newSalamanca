@@ -1,8 +1,17 @@
-angular.module('Salamanca').controller('secondCtrl', secondCtrl);
+angular.module('Salamanca').controller('herramientaCtrl', herramientaCtrl);
 
-secondCtrl.$inject = ['$scope', '$state', '$timeout'];
+herramientaCtrl.$inject = ['$scope', '$state', '$timeout', 'imageToStringFactory'];
 
-function secondCtrl($scope, $state, $timeout) {
+function herramientaCtrl($scope, $state, $timeout, imageToStringFactory) {
+
+  angular.element('#imgContainer').css({
+    'background-color': 'grey',
+    'background-size': 'cover',
+    'background-position': 'center center',
+  });
+
+  $scope.fakepath = 'No se ha cargado ningún archivo';
+
   $scope.sumAreas = [];
   $scope.sumAreas[0] = { x: "OS", y: [0], };
   $scope.sumAreas[1] = { x: "Bienvenida", y: [0], };
@@ -41,19 +50,10 @@ function secondCtrl($scope, $state, $timeout) {
     $scope.drawDiv();
   };
 
-
-  angular.element('#imgContainer').css({
-    'background-color': 'grey',
-    'background-size': 'cover',
-    'background-position': 'center center',
-  });
-
-  $scope.fakepath = 'No se ha cargado ningún archivo';
-
   $scope.submitImage = function(){
     $scope.fakepath = 'Subiendo archivo...';
     angular.element('#submitImageInput').trigger('click');
-    $scope.displayImage();
+    imageToStringFactory.convert('submitImageInput');
     $scope.fakepath = angular.element('#submitImageInput')[0].value.toString();
   };
 
@@ -61,25 +61,5 @@ function secondCtrl($scope, $state, $timeout) {
     $timeout(function(){
       $scope.fakepath = angular.element('#submitImageInput')[0].value.toString();
     },250);
-  };
-
-  $scope.displayImage = function(){
-    // convert image to base64
-    function el(id){
-      return document.getElementById(id);
-    }; // Get elem by ID
-    function readImage() {
-      if ( this.files && this.files[0] ) {
-        var FR = new FileReader();
-        FR.onload = function(e) {
-          $scope.uploadImage();
-          angular.element('#imgContainer').css({
-            'background-image': 'url(' + e.target.result + ')',
-          });
-        };
-        FR.readAsDataURL( this.files[0] );
-      }
-    };
-    el("submitImageInput").addEventListener("change", readImage, false);
   };
 };

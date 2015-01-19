@@ -228,11 +228,6 @@ ______________________________________________ */
     position: relative;
     width: 100%;
     height: 500px;
-    /*
-    background-image: url(../images/placeholderImage.png);
-		background-size: cover;
-		background-position: center center;
-    */
     cursor: pointer;
     z-index: 100;
   }
@@ -241,6 +236,20 @@ ______________________________________________ */
     width: 100%;
     height: 500px;
     z-index: -1;
+  }
+
+  .squareText{
+    height: 20px;
+    line-height: 20px;
+    margin-top: 0;
+    float: left;
+  }
+
+  .square{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    float: left;
   }
 
 /*

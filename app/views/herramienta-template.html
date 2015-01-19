@@ -1,4 +1,4 @@
-<div ng-controller="secondCtrl">
+<div ng-controller="herramientaCtrl">
 
     <header class="container">
       <div class="two columns">
@@ -72,37 +72,37 @@
         <h2>Áreas seleccionadas</h2>
       </div>
       <div class="six columns">
-        <table>
+        <table class="resultsTable">
           <tr>
-            <td><p>OS y Controles del navegador (Aqua):</p></td>
+            <td><div class="square" style="background-color: aqua"></div><p class="squareText">OS y Controles del navegador (Aqua):</p></td>
             <td><p>{{osValue | number: 2}} %</p></td>
           </tr>
           <tr>
-            <td><p>Bienvenida e identidad del sitio (Amarillo):</p></td>
+            <td><div class="square" style="background-color: yellow"></div><p class="squareText">Bienvenida e identidad del sitio (Amarillo):</p></td>
             <td>{{bienvenidaValue | number: 2}} %</td>
           </tr>
           <tr>
-            <td><p>Navegación (Naranja):</p></td>
+            <td><div class="square" style="background-color: orange"></div><p class="squareText">Navegación (Naranja):</p></td>
             <td>{{navegacionValue | number: 2}} %</td>
           </tr>
           <tr>
-            <td><p>Contenido de interés (Verde):</p></td>
+            <td><div class="square" style="background-color: green"></div><p class="squareText">Contenido de interés (Verde):</p></td>
             <td>{{interesValue | number: 2}} %</td>
           </tr>
           <tr>
-            <td><p>Publicidad y patrocinio (Rojo):</p></td>
+            <td><div class="square" style="background-color: red"></div><p class="squareText">Publicidad y patrocinio (Rojo):</p></td>
             <td>{{publicidadValue | number: 2}} %</td>
           </tr>
           <tr>
-            <td><p>Autopromoción (Morado):</p></td>
+            <td><div class="square" style="background-color: purple"></div><p class="squareText">Autopromoción (Morado):</p></td>
             <td>{{autopromocionValue | number: 2}} %</td>
           </tr>
           <tr>
-            <td><p>Relleno (Gris):</p></td>
+            <td><div class="square" style="background-color: grey"></div><p class="squareText">Relleno (Gris):</p></td>
             <td>{{rellenoValue | number: 2}} %</td>
           </tr>
           <tr>
-            <td><p>Sin uso (Crema):</p></td>
+            <td><div class="square" style="background-color: wheat"></div><p class="squareText">Sin uso (Crema):</p></td>
             <td>{{sinUsoValue | number: 2}} %</td>
           </tr>
         </table>
