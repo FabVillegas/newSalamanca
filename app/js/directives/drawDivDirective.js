@@ -201,7 +201,11 @@ angular.module('Salamanca').directive('divCanvas', function(){
       };
 
       function updateSinUso(value){
-        scope.sinUsoValue -= value;
+
+        var total = scope.osValue + scope.bienvenidaValue + scope.navegacionValue + scope.interesValue
+        + scope.publicidadValue + scope.autopromocionValue + scope.rellenoValue;
+
+        scope.sinUsoValue = (100 - total);
         if(scope.sinUsoValue < 0){
           scope.sinUsoValue = 0;
         }
