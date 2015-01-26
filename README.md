@@ -1,12 +1,17 @@
-# Salamanca
+# newSalamanca
+
+## Información
+
+Este proyecto posee las siguientes dependencias:
+* AngularJS
+* JQuery
+
+## Descripción
+
+Herramienta para medir el uso del espacio.
 
 
-## General Information
+### Autores
 
-This project makes use of the following:
-
-- angularjs
-- firebase
-- angularfire
-
-The file structure is simple, perfect to use with small and medium sized projects.
+Salamanca
+Villegas
