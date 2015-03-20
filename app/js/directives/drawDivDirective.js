@@ -3,10 +3,6 @@ angular.module('Salamanca').directive('divCanvas', function(){
     restrict: 'C', // detects a class name
     scope: false, // parent scope
     link: function(scope, element, attrs){
-      /*
-        markup required for directive to function, set width and height
-        <div id="imgContainer" class="divCanvas"></div>
-      */
 
       // variables
       scope.divArray = [];

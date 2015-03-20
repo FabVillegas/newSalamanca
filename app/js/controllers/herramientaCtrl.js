@@ -1,8 +1,8 @@
 angular.module('Salamanca').controller('herramientaCtrl', herramientaCtrl);
 
-herramientaCtrl.$inject = ['$scope', '$state', '$timeout', 'imageToStringFactory'];
+herramientaCtrl.$inject = ['$scope', '$state', '$timeout', 'imageToStringFactory', 'ngDialog'];
 
-function herramientaCtrl($scope, $state, $timeout, imageToStringFactory) {
+function herramientaCtrl($scope, $state, $timeout, imageToStringFactory, ngDialog) {
 
   angular.element('#imgContainer').css({
     'background-color': 'grey',
@@ -51,15 +51,26 @@ function herramientaCtrl($scope, $state, $timeout, imageToStringFactory) {
   };
 
   $scope.submitImage = function(){
-    $scope.fakepath = 'Subiendo archivo...';
+    //$scope.fakepath = 'Subiendo archivo...';
     angular.element('#submitImageInput').trigger('click');
     imageToStringFactory.convert('submitImageInput');
-    $scope.fakepath = angular.element('#submitImageInput')[0].value.toString();
   };
 
   $scope.uploadImage = function(){
-    $timeout(function(){
-      $scope.fakepath = angular.element('#submitImageInput')[0].value.toString();
-    },250);
+    //imageToStringFactory.checkFile();
+    var fileType = angular.element('#submitImageInput')[0].files[0].type;
+      if(fileType == 'image/jpeg' || fileType == 'image/png' || fileType == 'image/gif' || fileType == 'image/bmp'){
+        $timeout(function(){
+          $scope.fakepath = angular.element('#submitImageInput')[0].value.toString();
+        },250);
+      }
+      else{
+        $scope.fakepath = 'No se ha cargado ningún archivo correcto';
+        ngDialog.open({
+          template: 'fileAlert',
+          closeByDocument: true,
+          closeByEscape: true
+        });
+      }
   };
 };

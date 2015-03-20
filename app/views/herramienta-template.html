@@ -1,169 +1,183 @@
 <div ng-controller="herramientaCtrl">
-
-    <header class="container">
-      <div class="two columns">
-        <img id="logo" src="images/usarialogo.png" />
-      </div>
-      <div class="fourteen columns">
-        <h1 id="title">herramienta para medir el uso del espacio</h1>
-      </div>
-    </header>
-
-		<div class="hr"></div>
-
-    <div id="theFirst">
-    <div  class="container">
-      <div class="sixteen columns">
-        <h2>¿Cómo funciona?</h2>
-      </div>
-			<div class="sixteen columns">
-				<div class="hr"></div>
-			</div>
-			<div class="four columns">
-				<div class="iconColumn">
-					<p class="numberIcon">1</p>
-				</div>
-				<div class="instructionColumn">
-					<p>Selecciona la imagen que deseas evaluar</p>
-					<button ng-click="submitImage()" class="submitButton" type="submit">Selecciona un archivo</button>
-					<label>{{fakepath}}</label>
-					<input ng-model="image" onchange="angular.element(this).scope().uploadImage()" id="submitImageInput" type="file">
-				</div>
-				<hr>
-				<div class="iconColumn">
-					<p class="numberIcon">2</p>
-				</div>
-				<div class="instructionColumn">
-					<p class="shorter">Selecciona el área que deseas examinar</p>
-					<img class="shorterIcon" src="images/selectIcon.svg" />
-				</div>
-				<hr>
-				<div class="iconColumn">
-					<p class="numberIcon">3</p>
-				</div>
-				<div class="instructionColumn">
-					<p>Selecciona el tipo de contenido</p>
-					<select ng-model="selectedFilter">
-						<option value="" selected disabled>Seleccionar</option>
-						<option>OS y controles del navegador (Aqua)</option>
-						<option>Bienvenida e identidad del sitio (Amarillo)</option>
-						<option>Navegación (Naranja)</option>
-						<option>Contenido de interés (Verde)</option>
-						<option>Publicidad y patrocinio (Rojo)</option>
-						<option>Autopromoción (Morado)</option>
-						<option>Relleno (Gris)</option>
-						<option>Sin uso (Crema)</option>
-					</select>
-					<button ng-click="newDiv()" id="evaluateButton" type="submit">Evaluar</button>
-					<a class="eraseFilters" ng-click="deleteFilters()">Borrar todos los filtros</a>
-				</div>
-			</div>
-      <div class="twelve columns">
-        <div id="imgContainer" class="divCanvas"></div>
-      </div>
-
+  <script type="text/ng-template" id="fileAlert">
+    <h2 style="text-align: center;">Tipo de archivo incorrecto</h2>
+    <p>El archivo debe ser del tipo de imagen con extensión
+    <span style="font-weight: bold"> jpg </span>,
+    <span style="font-weight: bold"> png </span>,
+    <span style="font-weight: bold"> gif </span> o
+    <span style="font-weight: bold"> bmp </span>.</p>
+  </script>
+  <header class="container">
+    <div class="two columns">
+      <img id="logo" src="images/usarialogo.png" />
     </div>
+    <div class="fourteen columns">
+      <h1 id="title" ng-click="openit()">herramienta para medir el uso del espacio</h1>
     </div>
-    <hr style="margin: 0;">
+  </header>
 
-    <div id="theSecond">
-    <div class="container">
-      <div class="sixteen columns">
-        <h2>Áreas seleccionadas</h2>
-      </div>
-      <div class="six columns">
-        <table class="resultsTable">
-          <tr>
-            <td><div class="square" style="background-color: aqua"></div><p class="squareText">OS y Controles del navegador (Aqua):</p></td>
-            <td><p class="squareText">{{osValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: yellow"></div><p class="squareText">Bienvenida e identidad del sitio (Amarillo):</p></td>
-            <td><p class="squareText">{{bienvenidaValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: orange"></div><p class="squareText">Navegación (Naranja):</p></td>
-            <td><p class="squareText">{{navegacionValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: green"></div><p class="squareText">Contenido de interés (Verde):</p></td>
-            <td><p class="squareText">{{interesValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: red"></div><p class="squareText">Publicidad y patrocinio (Rojo):</p></td>
-            <td><p class="squareText">{{publicidadValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: purple"></div><p class="squareText">Autopromoción (Morado):</p></td>
-            <td><p class="squareText">{{autopromocionValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: grey"></div><p class="squareText">Relleno (Gris):</p></td>
-            <td><p class="squareText">{{rellenoValue | number: 2}} %</p></td>
-          </tr>
-          <tr>
-            <td><div class="square" style="background-color: wheat"></div><p class="squareText">Sin uso (Crema):</p></td>
-            <td><p class="squareText">{{sinUsoValue | number: 2}} %</p></td>
-          </tr>
-        </table>
-      </div>
-      <div class="ten columns">
-        <div data-ac-chart="chartType" data-ac-data="data" data-ac-config="config" class="chart"></div>
-      </div>
+	<div class="hr"></div>
+
+  <div id="theFirst">
+  <div  class="container set-background">
+    <div class="sixteen columns">
+      <h2>¿Cómo funciona?</h2>
     </div>
-  </div>
-
-  <div id="theThird">
-    <div class="container">
-      <div class="sixteen columns">
-				<h2>Acerca de</h2>
-				<hr>
-        <p>Herramienta desarrollada por CortesSalamanca/Villegas con uso de servidor por cortesía de Usaria, consultoría en usabilidad y experiencia de usuario en México y Colombia.</p>
-      </div>
-    </div>
-  </div>
-
-		<footer>
+		<div class="sixteen columns">
 			<div class="hr"></div>
-			<div class="container">
-				<div class="address three one-third column">
-					<div>
-						<h3>México norte</h3>
-						<p>Blvd. Díaz Ordaz #130 Piso 10,</p>
-						<p>Col. Santa María Monterrey, NL.</p>
-						<p>Tel. +52 (81) 8851-82-33</p>
-					</div>
-				</div>
-				<div class="address three one-third column">
-					<div>
-						<h3>México centro-sur</h3>
-						<p>Privada 3B Sur 3914-2,</p>
-						<p>Col. Gabriel Pastor Puebla, Puebla.</p>
-						<p>Tel. +52 (222) 237-35-19</p>
-					</div>
-				</div>
-				<div class="address three one-third column">
-					<div>
-						<h3>Colombia</h3>
-						<p>Calle 93 # 11 a - 28 Oficina 601,</p>
-						<p>Bogotá, Distrito Capital.</p>
-						<p>Tel. +57 (1) 756-05-32</p>
-					</div>
-				</div>
-				<div class="disclaimer sixteen columns">
-					<p>Usaria, consultoría en usabilidad y experiencia de usuario. Derechos Reservados 2011</p>
-					<p>
-						<a href="#">Políticas de privacidad</a>
-						|
-						<a href="#">Términos y Condiciones de Uso</a>
-						|
-						<a href="#">Acerca De</a>
-						|
-						<a href="#">Oportunidades Laborales</a>
-						|
-						<a href="#">Preguntas Frecuentes</a>
-					</p>
+		</div>
+		<div class="four columns">
+			<div class="iconColumn">
+				<p class="numberIcon">1</p>
+			</div>
+			<div class="instructionColumn">
+				<p>Selecciona la imagen que deseas evaluar</p>
+				<button ng-click="submitImage()" class="submitButton" type="submit">Selecciona un archivo</button>
+				<label>{{fakepath}}</label>
+				<input ng-model="image" onchange="angular.element(this).scope().uploadImage()" id="submitImageInput" type="file">
+			</div>
+			<hr>
+			<div class="iconColumn">
+				<p class="numberIcon">2</p>
+			</div>
+			<div class="instructionColumn">
+				<p class="shorter">Selecciona el área que deseas examinar</p>
+				<img class="shorterIcon" src="images/selectIcon.svg" />
+			</div>
+			<hr>
+			<div class="iconColumn">
+				<p class="numberIcon">3</p>
+			</div>
+			<div class="instructionColumn">
+				<p>Selecciona el tipo de contenido</p>
+				<select ng-model="selectedFilter">
+					<option value="" selected disabled>Seleccionar</option>
+					<option>OS y controles del navegador (Aqua)</option>
+					<option>Bienvenida e identidad del sitio (Amarillo)</option>
+					<option>Navegación (Naranja)</option>
+					<option>Contenido de interés (Verde)</option>
+					<option>Publicidad y patrocinio (Rojo)</option>
+					<option>Autopromoción (Morado)</option>
+					<option>Relleno (Gris)</option>
+					<option>Sin uso (Crema)</option>
+				</select>
+				<button ng-click="newDiv()" id="evaluateButton" type="submit">Evaluar</button>
+				<a class="eraseFilters" ng-click="deleteFilters()">Borrar todos los filtros</a>
+			</div>
+      <hr>
+      <div class="iconColumn">
+        <p class="numberIcon">4</p>
+      </div>
+      <div class="instructionColumn">
+        <p>Repite los pasos <span style="font-weight: bold;">2</span> y <span style="font-weight: bold;">3</span> hasta que hayas marcado todas las áreas de la interfaz</p>
+      </div>
+		</div>
+    <div class="twelve columns">
+      <div id="imgContainer" class="divCanvas"></div>
+    </div>
+
+  </div>
+  </div>
+  <hr style="margin: 0;">
+
+  <div id="theSecond">
+  <div class="container set-background">
+    <div class="sixteen columns">
+      <h2>Áreas seleccionadas</h2>
+    </div>
+    <div class="six columns">
+      <table class="resultsTable">
+        <tr>
+          <td><div class="square" style="background-color: aqua"></div><p class="squareText">OS y Controles del navegador (Aqua):</p></td>
+          <td><p class="squareText">{{osValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: yellow"></div><p class="squareText">Bienvenida e identidad del sitio (Amarillo):</p></td>
+          <td><p class="squareText">{{bienvenidaValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: orange"></div><p class="squareText">Navegación (Naranja):</p></td>
+          <td><p class="squareText">{{navegacionValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: green"></div><p class="squareText">Contenido de interés (Verde):</p></td>
+          <td><p class="squareText">{{interesValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: red"></div><p class="squareText">Publicidad y patrocinio (Rojo):</p></td>
+          <td><p class="squareText">{{publicidadValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: purple"></div><p class="squareText">Autopromoción (Morado):</p></td>
+          <td><p class="squareText">{{autopromocionValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: grey"></div><p class="squareText">Relleno (Gris):</p></td>
+          <td><p class="squareText">{{rellenoValue | number: 2}} %</p></td>
+        </tr>
+        <tr>
+          <td><div class="square" style="background-color: wheat"></div><p class="squareText">Sin uso (Crema):</p></td>
+          <td><p class="squareText">{{sinUsoValue | number: 2}} %</p></td>
+        </tr>
+      </table>
+    </div>
+    <div class="ten columns">
+      <div data-ac-chart="chartType" data-ac-data="data" data-ac-config="config" class="chart"></div>
+    </div>
+  </div>
+</div>
+
+<div id="theThird">
+  <div class="container set-background">
+    <div class="sixteen columns">
+			<h2>Acerca de</h2>
+			<hr>
+      <p>Herramienta desarrollada por CortesSalamanca/Villegas con uso de servidor por cortesía de Usaria, consultoría en usabilidad y experiencia de usuario en México y Colombia.</p>
+    </div>
+  </div>
+</div>
+
+	<footer>
+		<div class="hr"></div>
+		<div class="container">
+			<div class="address three one-third column">
+				<div>
+					<h3>México norte</h3>
+					<p>Blvd. Díaz Ordaz #130 Piso 10,</p>
+					<p>Col. Santa María Monterrey, NL.</p>
+					<p>Tel. +52 (81) 8851-82-33</p>
 				</div>
 			</div>
-		</footer>
+			<div class="address three one-third column">
+				<div>
+					<h3>México centro-sur</h3>
+					<p>Privada 3B Sur 3914-2,</p>
+					<p>Col. Gabriel Pastor Puebla, Puebla.</p>
+					<p>Tel. +52 (222) 237-35-19</p>
+				</div>
+			</div>
+			<div class="address three one-third column">
+				<div>
+					<h3>Colombia</h3>
+					<p>Calle 93 # 11 a - 28 Oficina 601,</p>
+					<p>Bogotá, Distrito Capital.</p>
+					<p>Tel. +57 (1) 756-05-32</p>
+				</div>
+			</div>
+			<div class="disclaimer sixteen columns">
+				<p>Usaria, consultoría en usabilidad y experiencia de usuario. Derechos Reservados 2011</p>
+				<p>
+					<a href="#">Políticas de privacidad</a>
+					|
+					<a href="#">Términos y Condiciones de Uso</a>
+					|
+					<a href="#">Acerca De</a>
+					|
+					<a href="#">Oportunidades Laborales</a>
+					|
+					<a href="#">Preguntas Frecuentes</a>
+				</p>
+			</div>
+		</div>
+	</footer>
 </div>

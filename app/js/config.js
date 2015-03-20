@@ -1,6 +1,7 @@
 angular.module('Salamanca', [
   'ui.router',
   'angularCharts',
+  'ngDialog'
 ]).
 config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('herramienta');
