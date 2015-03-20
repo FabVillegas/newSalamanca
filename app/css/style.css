@@ -250,6 +250,7 @@ ______________________________________________ */
     height: 20px;
     line-height: 20px;
     margin-top: 0;
+    font-size: 0.80em !important;
     float: left;
   }
 
