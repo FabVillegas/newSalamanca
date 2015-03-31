@@ -4,12 +4,6 @@ herramientaCtrl.$inject = ['$scope', '$state', '$timeout', 'imageToStringFactory
 
 function herramientaCtrl($scope, $state, $timeout, imageToStringFactory, ngDialog) {
 
-  angular.element('#imgContainer').css({
-    'background-color': 'grey',
-    'background-size': 'cover',
-    'background-position': 'center center',
-  });
-
   $scope.fakepath = 'No se ha cargado ningún archivo';
 
   $scope.sumAreas = [];

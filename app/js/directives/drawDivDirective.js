@@ -44,17 +44,23 @@ angular.module('Salamanca').directive('divCanvas', function(){
         drawing = true;
       });
 
+      scope._width = 0;
+      scope._height = 0;
       element.bind('mousemove', function(event){
         if(drawing){
           scope.currentX = event.offsetX;
           scope.currentY = event.offsetY;
           _width = Math.abs(scope.currentX - scope.initialX);
           _height = Math.abs(scope.currentY - scope.initialY);
+          scope._width = (scope.currentX - scope.initialX);
+          scope._height = (scope.currentY - scope.initialY);
+
           $selection.css({
             'width': _width,
             'height': _height,
           });
-          resize();
+          //resize();
+          /*
           if(scope.currentX < scope.initialX){
             $selection.css({
               'left': scope.initialX - _width,
@@ -65,7 +71,7 @@ angular.module('Salamanca').directive('divCanvas', function(){
               'left': scope.initialX,
             });
           }
-          resize();
+          //resize();
           if(scope.currentY < scope.initialY){
             $selection.css({
               'top': scope.initialY - _height,
@@ -76,7 +82,8 @@ angular.module('Salamanca').directive('divCanvas', function(){
               'top': scope.initialY,
             });
           }
-          resize();
+          */
+          //resize();
         }
       });
 
