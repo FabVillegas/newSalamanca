@@ -11,8 +11,8 @@ ______________________________________________ */
   .selection-box {
     position: absolute;
     background: transparent;
-    border: 3px dotted #FFFFFF;
-    z-index: 101;
+    border: 3px dotted #3F3F3F;
+    z-index: 3;
   }
 
   .OS{
@@ -70,7 +70,8 @@ ______________________________________________ */
   }
 
   #logo{
-    width: 100%;
+    width: 50%;
+    margin: 0 25% 0 25%;
     height: auto;
   }
 
@@ -208,7 +209,7 @@ ______________________________________________ */
   }
 
   #evaluateButton{
-    width: 45%;
+    width: 95%;
     margin-top: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -238,6 +239,10 @@ ______________________________________________ */
     height: 500px;
     cursor: pointer;
     z-index: 100;
+  }
+
+  .setHeight{
+    height: 500px;
   }
 
   #img{
@@ -402,8 +407,16 @@ ______________________________________________ */
       font-size: 1.5em;
     }
 
+    .ac-legend{
+        display: none;
+    }
+
+    .setHeight{
+      height: 400px;
+    }
+
     .squareText{
-      font-size: 0.75em !important;
+      font-size: 0.73em !important;
     }
 
     .angular-charts-template table {

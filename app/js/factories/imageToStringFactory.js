@@ -8,9 +8,15 @@ angular.module('Salamanca').factory('imageToStringFactory', function(){
         var FR = new FileReader();
         FR.onload = function(e) {
           // linea de que hacer con el resultado
-          angular.element('#imgContainer').css({
+          var target = document.getElementById('canvas');
+          angular.element(target).css({
             'background-image': 'url(' + e.target.result + ')',
+            'background-size': 'cover',
+            'background-position': 'center center',
+            'z-index': '3',
           });
+
+          
         };
         FR.readAsDataURL( this.files[0] );
       }
