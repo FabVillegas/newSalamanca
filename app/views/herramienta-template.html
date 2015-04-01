@@ -1,15 +1,4 @@
 <div ng-controller="herramientaCtrl">
-
-  <div class="container">
-    <div class="sixteen columns">
-      <div draw-on-canvas></div>
-    </div>
-    <div class="sixteen columns">
-      <div draw-on-canvas></div>
-    </div>
-  </div>
-
-
   <script type="text/ng-template" id="fileAlert">
     <h2 style="text-align: center;">Tipo de archivo incorrecto</h2>
     <p>El archivo debe ser del tipo de imagen con extensión
@@ -17,6 +6,9 @@
     <span style="font-weight: bold"> png </span>,
     <span style="font-weight: bold"> gif </span> o
     <span style="font-weight: bold"> bmp </span>.</p>
+  </script>
+  <script type="text/ng-template" id="percentagesNotifcation">
+    <h2>La información de porcentajes de uso se ha actualizado en la parte inferior</h2>
   </script>
   <header class="container">
     <div class="four columns">
@@ -45,7 +37,7 @@
 				<p>Selecciona la imagen que deseas evaluar</p>
 				<button ng-click="submitImage()" class="submitButton" type="submit">Selecciona un archivo</button>
 				<label>{{fakepath}}</label>
-				<input ng-model="image" onchange="angular.element(this).scope().uploadImage()" id="submitImageInput" type="file">
+				<input ng-model="image" id="submitImageInput" type="file">
 			</div>
 			<hr>
 			<div class="iconColumn">
@@ -60,7 +52,7 @@
 				<p class="numberIcon">3</p>
 			</div>
 			<div class="instructionColumn">
-				<p>Selecciona el tipo de contenido</p>
+				<p>Indica el tipo de contenido del área marcada</p>
 				<select ng-model="selectedFilter">
 					<option value="" selected disabled>Seleccionar</option>
 					<option>OS y controles del navegador (Aqua)</option>
@@ -72,8 +64,8 @@
 					<option>Relleno (Gris)</option>
 					<option>Sin uso (Crema)</option>
 				</select>
-				<button ng-click="newDiv()" id="evaluateButton" type="submit">Evaluar</button>
-				<a class="eraseFilters" ng-click="deleteFilters()">Borrar todos los filtros</a>
+				<button ng-click="newDiv()" id="evaluateButton" type="submit">Calcular porcentaje</button>
+				<a class="eraseFilters" ng-click="deleteAll()">Borrar todos los filtros</a>
 			</div>
       <hr>
       <div class="iconColumn">
@@ -84,10 +76,7 @@
       </div>
 		</div>
     <div class="twelve columns">
-      <div id="imgContainer" class="divCanvas"></div>
-    </div>
-    <div class="twelve columns">
-      <div id="imgContainer" class="divCanvas"></div>
+      <div id="thisIsTheCanvas" draw-on-canvas></div>
     </div>
   </div>
 
@@ -97,41 +86,42 @@
   <div id="theSecond">
   <div class="container set-background">
     <div class="sixteen columns">
-      <h2>Áreas seleccionadas</h2>
+      <h2>Resultados de porcentajes de uso de la pantalla evaluada</h2>
     </div>
     <div class="six columns">
+      <h2 style="margin-top: 0; color: black; margin-bottom: 75px;">Áreas seleccionadas</h2>
       <table class="resultsTable">
         <tr>
           <td><div class="square" style="background-color: aqua"></div><p class="squareText">OS y Controles del navegador (Aqua):</p></td>
-          <td><p class="squareText">{{osValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['OS'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: yellow"></div><p class="squareText">Bienvenida e identidad del sitio (Amarillo):</p></td>
-          <td><p class="squareText">{{bienvenidaValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['Bienvenida'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: orange"></div><p class="squareText">Navegación (Naranja):</p></td>
-          <td><p class="squareText">{{navegacionValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['Navegacion'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: green"></div><p class="squareText">Contenido de interés (Verde):</p></td>
-          <td><p class="squareText">{{interesValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['Interes'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: red"></div><p class="squareText">Publicidad y patrocinio (Rojo):</p></td>
-          <td><p class="squareText">{{publicidadValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['Publicidad'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: purple"></div><p class="squareText">Autopromoción (Morado):</p></td>
-          <td><p class="squareText">{{autopromocionValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['Autopromocion'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: grey"></div><p class="squareText">Relleno (Gris):</p></td>
-          <td><p class="squareText">{{rellenoValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['Relleno'].value | number: 2}} %</p></td>
         </tr>
         <tr>
           <td><div class="square" style="background-color: wheat"></div><p class="squareText">Sin uso (Crema):</p></td>
-          <td><p class="squareText">{{sinUsoValue | number: 2}} %</p></td>
+          <td><p class="squareText">{{percentages['SinUso'].value | number: 2}} %</p></td>
         </tr>
       </table>
     </div>
