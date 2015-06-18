@@ -11,10 +11,15 @@ angular.module('Salamanca').directive('drawOnCanvas', ['$window', function($wind
         }
       });
 
+
       console.log('offset left: ' + element[0].offsetLeft);
       console.log($window.innerWidth);
       console.log($window.innerWidth - element[0].offsetWidth);
       //console.log(element[0].offsetLeft + 30 + 122 + 66);
+      
+
+
+
       element.css({ /* directive div */
         'background-color': 'lightgrey',
         'width': '100%',
